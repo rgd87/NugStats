@@ -1,0 +1,7 @@
+## Interface: 70300
+## Title: NugStats
+## Notes: ...
+## Author: d87
+## SavedVariables: NugStatsDB
+
+NugStats.lua
