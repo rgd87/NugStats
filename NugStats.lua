@@ -69,11 +69,14 @@ local defaults = {
             order = 3,
             format = "%H:%M:%S - %a%d",
         },
-        exp = {
+        azerite = {
             order = 4,
         },
-        honor = {
+        exp = {
             order = 5,
+        },
+        honor = {
+            order = 6,
         },
     }
 }
@@ -101,6 +104,7 @@ function NugStats.PLAYER_LOGIN(self,event,arg1)
     NugStats:ArrangeLines()
 
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
+
     self:RegisterEvent("PLAYER_MONEY")
     self:RegisterEvent("SEND_MAIL_MONEY_CHANGED")
     self:RegisterEvent("SEND_MAIL_COD_CHANGED")
@@ -170,15 +174,34 @@ end
 --     self.honor:SetText((hrp == 0 and "") or string.format("%s hr",hrp))
 -- end
 
+local azerite_color = ARTIFACT_BAR_COLOR:GenerateHexColor()
+function NugStats:AZERITE_ITEM_EXPERIENCE_CHANGED()
+    if not self.azerite then return end
+
+    local azeriteItemLocation = C_AzeriteItem.FindActiveAzeriteItem(); 
+	if (not azeriteItemLocation) then 
+		return; 
+	end
+    local azeriteItem = Item:CreateFromItemLocation(azeriteItemLocation); 
+    
+	local xp, max = C_AzeriteItem.GetAzeriteItemXPInfo(azeriteItemLocation);
+	local currentLevel = C_AzeriteItem.GetPowerLevel(azeriteItemLocation); 
+    local toGo = max - xp
+    local percentToGo = math.floor(toGo / max * 100)
+
+    local str = string.format("|c%sAP:|r %d (%d%%)", azerite_color, toGo, percentToGo)
+    self.azerite:SetText(str)
+end
 
 
+local xp_color = CreateColor(0.7, 0.7, 1):GenerateHexColor()
 function NugStats:PLAYER_XP_UPDATE()
     if not self.exp then return end
     local max, xp = UnitXPMax("player"), UnitXP("player")
     local toGo = max - xp
     local percentToGo = math.floor(toGo / max * 100)
 
-    local expstr = string.format("%d (%d%%)", toGo, percentToGo)
+    local expstr = string.format("|c%sXP:|r %d (%d%%)", xp_color, toGo, percentToGo)
     local rested = GetXPExhaustion()
     if rested then
         local restedPercent = math.floor((rested / max) * 100)
@@ -204,6 +227,7 @@ function NugStats:PLAYER_ENTERING_WORLD()
     self:PLAYER_MONEY()
 
     if UnitLevel("player") < MAX_PLAYER_LEVEL  then self:PLAYER_XP_UPDATE() end
+    self:AZERITE_ITEM_EXPERIENCE_CHANGED()
 end
 
 function NugStats:CreateAnchor(db_tbl)
