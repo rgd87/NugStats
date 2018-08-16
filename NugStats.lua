@@ -118,6 +118,7 @@ function NugStats.PLAYER_LOGIN(self,event,arg1)
 
     -- if self.exp then
     self:RegisterEvent("PLAYER_XP_UPDATE")
+    self:RegisterEvent("AZERITE_ITEM_EXPERIENCE_CHANGED")
     -- end
 
     NugStats:SetScript("OnUpdate",function(self, arg1)
@@ -177,6 +178,8 @@ end
 local azerite_color = ARTIFACT_BAR_COLOR:GenerateHexColor()
 function NugStats:AZERITE_ITEM_EXPERIENCE_CHANGED()
     if not self.azerite then return end
+
+    -- print('update')
 
     local azeriteItemLocation = C_AzeriteItem.FindActiveAzeriteItem(); 
 	if (not azeriteItemLocation) then 
