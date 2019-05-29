@@ -8,6 +8,8 @@ end)
 NugStats:RegisterEvent("PLAYER_LOGIN")
 NugStats:RegisterEvent("PLAYER_LOGOUT")
 
+local isClassic = select(4,GetBuildInfo()) <= 19999
+
 local MAX_PLAYER_LEVEL = MAX_PLAYER_LEVEL
 local MAX_LINES = 8
 local lines = {}
@@ -118,7 +120,10 @@ function NugStats.PLAYER_LOGIN(self,event,arg1)
 
     -- if self.exp then
     self:RegisterEvent("PLAYER_XP_UPDATE")
-    self:RegisterEvent("AZERITE_ITEM_EXPERIENCE_CHANGED")
+    if not isClassic then
+        self:RegisterEvent("AZERITE_ITEM_EXPERIENCE_CHANGED")
+        self.AZERITE_ITEM_EXPERIENCE_CHANGED = function() end
+    end
     -- end
 
     NugStats:SetScript("OnUpdate",function(self, arg1)
@@ -230,7 +235,7 @@ function NugStats:PLAYER_ENTERING_WORLD()
     self:PLAYER_MONEY()
 
     if UnitLevel("player") < MAX_PLAYER_LEVEL  then self:PLAYER_XP_UPDATE() end
-    self:AZERITE_ITEM_EXPERIENCE_CHANGED()
+    if not isClassic then self:AZERITE_ITEM_EXPERIENCE_CHANGED() end
 end
 
 function NugStats:CreateAnchor(db_tbl)
