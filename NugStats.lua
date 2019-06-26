@@ -122,7 +122,6 @@ function NugStats.PLAYER_LOGIN(self,event,arg1)
     self:RegisterEvent("PLAYER_XP_UPDATE")
     if not isClassic then
         self:RegisterEvent("AZERITE_ITEM_EXPERIENCE_CHANGED")
-        self.AZERITE_ITEM_EXPERIENCE_CHANGED = function() end
     end
     -- end
 
@@ -186,14 +185,14 @@ function NugStats:AZERITE_ITEM_EXPERIENCE_CHANGED()
 
     -- print('update')
 
-    local azeriteItemLocation = C_AzeriteItem.FindActiveAzeriteItem(); 
-	if (not azeriteItemLocation) then 
-		return; 
+    local azeriteItemLocation = C_AzeriteItem.FindActiveAzeriteItem();
+	if (not azeriteItemLocation) then
+		return;
 	end
-    local azeriteItem = Item:CreateFromItemLocation(azeriteItemLocation); 
-    
+    local azeriteItem = Item:CreateFromItemLocation(azeriteItemLocation);
+
 	local xp, max = C_AzeriteItem.GetAzeriteItemXPInfo(azeriteItemLocation);
-	local currentLevel = C_AzeriteItem.GetPowerLevel(azeriteItemLocation); 
+	local currentLevel = C_AzeriteItem.GetPowerLevel(azeriteItemLocation);
     local toGo = max - xp
     local percentToGo = math.floor(toGo / max * 100)
 
