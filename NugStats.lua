@@ -283,7 +283,6 @@ function NugStats.CreateLine(self, width, height)
     f:SetFrameLevel(3)
     f:SetWidth(width)
     f:SetHeight(height)
-    f:EnableMouse(true)
     f.text = f:CreateFontString(nil, "OVERLAY");
     f.text:SetFont(NugStatsDB.font,NugStatsDB.fontSize)
     f.text:SetAllPoints(f)
