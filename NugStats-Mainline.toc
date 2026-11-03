@@ -1,5 +1,6 @@
-## Interface: 70300
+## Interface: 120105
 ## Title: NugStats
+## IconTexture: 132292
 ## Notes: ...
 ## Author: d87
 ## SavedVariables: NugStatsDB

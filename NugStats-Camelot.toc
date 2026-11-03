@@ -1,0 +1,8 @@
+## Interface: 16001
+## Title: NugStats
+## IconTexture: 132292
+## Notes: ...
+## Author: d87
+## SavedVariables: NugStatsDB
+
+NugStats.lua

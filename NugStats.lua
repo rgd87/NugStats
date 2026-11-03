@@ -120,9 +120,6 @@ function NugStats.PLAYER_LOGIN(self,event,arg1)
 
     -- if self.exp then
     self:RegisterEvent("PLAYER_XP_UPDATE")
-    if not isClassic then
-        self:RegisterEvent("AZERITE_ITEM_EXPERIENCE_CHANGED")
-    end
     -- end
 
     NugStats:SetScript("OnUpdate",function(self, arg1)
@@ -233,8 +230,8 @@ function NugStats:PLAYER_ENTERING_WORLD()
     self:UpdateClock()
     self:PLAYER_MONEY()
 
-    if UnitLevel("player") < MAX_PLAYER_LEVEL  then self:PLAYER_XP_UPDATE() end
-    if not isClassic then self:AZERITE_ITEM_EXPERIENCE_CHANGED() end
+    if UnitLevel("player") < GetMaxPlayerLevel()  then self:PLAYER_XP_UPDATE() end
+    -- if not isClassic then self:AZERITE_ITEM_EXPERIENCE_CHANGED() end
 end
 
 function NugStats:CreateAnchor(db_tbl)
